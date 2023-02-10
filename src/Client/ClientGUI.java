@@ -20,4 +20,17 @@ public class ClientGUI {
 
         return panel;
     }
+
+    public void setTextArea1(JTextArea textArea1) {
+        this.textArea1 = textArea1;
+    }
+
+    public String getTextField1() {
+        return textField1.getText();
+
+    }
+
+    public JButton getSkickaButton() {
+        return skickaButton;
+    }
 }

@@ -22,4 +22,17 @@ public class ServerGUI {
 
         return panel;
     }
+
+    public JTextField getTextField1() {
+        return textField1;
+    }
+
+    public JButton getSkickaButton() {
+        return skickaButton;
+    }
+
+    public void setTextArea1(JTextArea textArea1) {
+        this.textArea1 = textArea1;
+    }
+
 }

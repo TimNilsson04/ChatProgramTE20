@@ -1,6 +1,11 @@
-vecka 6:
+vecka 6 Torsdag:
 - Jag har skapat en ny clone.
 - Sedan har jag skapat alla filer och GUI.
 - Gjorde så att man kan ta fram GUI med två text rutor och en knapp.
 
-vecka 7:
+vecka 6 Fredag:
+
+- Jag har gjort så att ClientModel och ServerModel har alla funktioner och ClientController och ServerController bara har psvm.
+- Sedan har jag skapat alla gets och sets för fälten på GUI.
+
+vecka 7 Torsdag:
