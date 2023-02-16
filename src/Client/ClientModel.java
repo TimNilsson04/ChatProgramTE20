@@ -9,12 +9,22 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class ClientModel {
-
+        String Cmsg = "";
+        String msg = "";
         Socket socket;
         PrintWriter out;
         BufferedReader in;
 
-        public ClientModel(String ip, int port) {
+    public String getCmsg() {
+        return Cmsg = "Client: " + msg;
+    }
+
+    public void setMsg(String getTextField1) {
+        this.msg = getTextField1;
+    }
+
+
+    public ClientModel(String ip, int port) {
             try {
                 socket = new Socket(ip,port);
             } catch (IOException e) {
@@ -34,22 +44,11 @@ public class ClientModel {
             System.out.println("Streams ready...");
         }
 
-        public void runProtocol(String msg) {
+        public void runProtocol() {
             Scanner tgb = new Scanner(System.in);
             System.out.println("chatting...");
-            while (!msg.equals("QUIT")) {
-                out.println("CLIENT: " + msg);
-                if (msg.endsWith("WreckingBall")){
-                    try {
-                        Process p = Runtime.getRuntime().exec("/Program Files (x86)/Google/Chrome/Application/chrome.exe https://www.youtube.com/watch?v=-8PibZVCWuI");
-                        p.waitFor();
-                        System.out.println("Google Chrome launched!");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
+
+    }
 
         public void shutDown() {
             try {

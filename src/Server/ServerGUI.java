@@ -6,13 +6,13 @@ public class ServerGUI {
 
 
 
-    private JTextArea textArea1;
+    public JTextArea textArea1;
 
-    private JTextField textField1;
+    public JTextField textField1;
 
-    private JButton skickaButton;
+    public JButton skickaButton;
 
-    private JPanel panel;
+    public JPanel panel;
 
     public ServerGUI (){
 

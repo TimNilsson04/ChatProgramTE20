@@ -53,15 +53,7 @@ public class ServerModel {
         while (!msg.equals("QUIT")) {
             msg = tgb.nextLine();
             out.println("SERVER: " + msg);
-            if (msg.endsWith("WreckingBall")){
-                try {
-                    Process p = Runtime.getRuntime().exec("\"/Program Files (x86)/Google/Chrome/Application/chrome.exe https://www.youtube.com/watch?v=-8PibZVCWuI");
-                    p.waitFor();
-                    System.out.println("Google Chrome launched!");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+
         }
     }
 

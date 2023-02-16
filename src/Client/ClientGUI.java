@@ -4,25 +4,25 @@ import javax.swing.*;
 
 public class ClientGUI {
 
-    private JTextArea textArea1;
+    public JTextArea textArea1;
 
-    private JTextField textField1;
+    public JTextField textField1;
 
-    private JButton skickaButton;
+    public JButton skickaButton;
 
-    private JPanel panel;
+    public JPanel panel;
 
     public ClientGUI (){
 
     }
 
     public JPanel getPanel() {
-
         return panel;
     }
 
-    public void setTextArea1(JTextArea textArea1) {
+    public void setTextArea1(JTextArea textArea1, String Cmsg) {
         this.textArea1 = textArea1;
+
     }
 
     public String getTextField1() {

@@ -9,3 +9,6 @@ vecka 6 Fredag:
 - Sedan har jag skapat alla gets och sets för fälten på GUI.
 
 vecka 7 Torsdag:
+
+- Jag har försökt att koppla Clientview variablerna till Clientmode jag tror jag har fixat textfield
+- Jag skulle lite hjälp att förstå mer om MVC.
