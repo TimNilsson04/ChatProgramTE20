@@ -20,8 +20,8 @@ public class ClientGUI {
         return panel;
     }
 
-    public void setTextArea1(JTextArea textArea1, String Cmsg) {
-        this.textArea1 = textArea1;
+    public void setTextArea1(String Cmsg) {
+        this.textArea1.append(Cmsg);
 
     }
 
@@ -32,5 +32,6 @@ public class ClientGUI {
 
     public JButton getSkickaButton() {
         return skickaButton;
+
     }
 }

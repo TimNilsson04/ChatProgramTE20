@@ -1,6 +1,8 @@
 package Client;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,15 +21,31 @@ public class ClientController {
 public ClientController(ClientModel m, ClientGUI v){
     this.model = m;
     this.view = v;
+
+    JFrame frame = new JFrame("ClientGUI");
+    frame.setContentPane(v.getPanel());
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.pack();
+    frame.setVisible(true);
+
+    v.skickaButton.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            m.setMsg(v.getTextField1());
+            m.getCmsg();
+            v.setTextArea1(m.Cmsg);
+        }
+    });
+
 }
 
     public static void main(String[] args) throws InterruptedException {
-            JFrame frame = new JFrame("ClientGUI");
-            frame.setContentPane(new ClientGUI().getPanel());
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.pack();
-            frame.setVisible(true);
-        // Client me = new Client.Client("10.80.47.10", 5858); //alexandro
+        ClientModel model = new ClientModel("localhost", 1234);
+        ClientGUI gui = new ClientGUI();
+
+        ClientController controller = new ClientController(model, gui);
+    }
+       /* // Client me = new Client.Client("10.80.47.10", 5858); //alexandro
         ClientModel me = new ClientModel("10.80.46.47", 1234); //ME
         me.getStreams();
         ListenerThread l = new ListenerThread(me.in, System.out);
@@ -36,7 +54,7 @@ public ClientController(ClientModel m, ClientGUI v){
         me.runProtocol();
         listener.join();
         me.shutDown();
-    }
+    }*/
 
 
 }

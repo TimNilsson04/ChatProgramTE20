@@ -1,6 +1,8 @@
 package Client;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,7 +18,7 @@ public class ClientModel {
         BufferedReader in;
 
     public String getCmsg() {
-        return Cmsg = "Client: " + msg;
+            return Cmsg = "Client: " + msg + "\n";
     }
 
     public void setMsg(String getTextField1) {
