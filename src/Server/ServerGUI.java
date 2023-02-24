@@ -19,20 +19,19 @@ public class ServerGUI {
     }
 
     public JPanel getPanel() {
-
         return panel;
     }
 
-    public JTextField getTextField1() {
-        return textField1;
+    public void setTextArea1(String Cmsg) {
+        this.textArea1.append(Cmsg);
+    }
+
+    public String getTextField1() {
+        return textField1.getText();
     }
 
     public JButton getSkickaButton() {
         return skickaButton;
-    }
-
-    public void setTextArea1(JTextArea textArea1) {
-        this.textArea1 = textArea1;
     }
 
 }

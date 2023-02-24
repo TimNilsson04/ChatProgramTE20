@@ -10,10 +10,20 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class ServerModel {
+    String Cmsg = "";
+    String msg = "";
     ServerSocket server;
     Socket client;
     PrintWriter out;
     BufferedReader in;
+
+    public String getCmsg() {
+        return Cmsg = "Server: " + msg + "\n";
+    }
+
+    public void setMsg(String getTextField1) {
+        this.msg = getTextField1;
+    }
 
     public ServerModel(int port) {
         try {
@@ -49,13 +59,8 @@ public class ServerModel {
     public void runProtocol() {
         Scanner tgb = new Scanner(System.in);
         System.out.println("chatting...");
-        String msg = "";
-        while (!msg.equals("QUIT")) {
-            msg = tgb.nextLine();
-            out.println("SERVER: " + msg);
-
         }
-    }
+
 
     public void shutdown() {
         try {

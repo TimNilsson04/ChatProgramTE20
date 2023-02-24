@@ -28,12 +28,19 @@ public ClientController(ClientModel m, ClientGUI v){
     frame.pack();
     frame.setVisible(true);
 
+    m.getStreams();
+    ListenerThread l = new ListenerThread(m.in, System.out);
+    Thread listener = new Thread(l);
+    listener.start();
+    m.runProtocol();
+
     v.skickaButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             m.setMsg(v.getTextField1());
             m.getCmsg();
             v.setTextArea1(m.Cmsg);
+
         }
     });
 

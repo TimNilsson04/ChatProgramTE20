@@ -12,3 +12,8 @@ vecka 7 Torsdag:
 
 - Jag har försökt att koppla Clientview variablerna till Clientmode jag tror jag har fixat textfield
 - Jag skulle lite hjälp att förstå mer om MVC.
+
+vecka 8 Fredag:
+
+- Jag har gjort så att man kan tjatta med sig själv på både servern och klienten
+- Jag ska försöka koppla klienten och servern
