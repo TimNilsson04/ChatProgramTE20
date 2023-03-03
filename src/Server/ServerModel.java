@@ -10,20 +10,17 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class ServerModel {
-    String Cmsg = "";
+
     String msg = "";
+    String chat = "";
+    String name = "";
+    String names = "";
     ServerSocket server;
     Socket client;
+
     PrintWriter out;
     BufferedReader in;
-
-    public String getCmsg() {
-        return Cmsg = "Server: " + msg + "\n";
-    }
-
-    public void setMsg(String getTextField1) {
-        this.msg = getTextField1;
-    }
+    ServerController minChef;
 
     public ServerModel(int port) {
         try {
@@ -32,9 +29,37 @@ public class ServerModel {
             System.err.println("Failed to open serversocket.");
             e.printStackTrace();
         }
-        System.out.println("Server started...");
+        System.out.println("ChatProgram.Server started...");
     }
 
+
+    public String getmsg() {
+        return msg;
+    }
+    public void setmsg(String msg) {
+        this.msg = msg;
+    }
+    public void addmessagetochat(String msg) {
+        chat += msg + "\n";
+    }
+
+    public String getchat() {return chat;}
+
+    public String getname() {return this.name;}
+
+    public String getnames() {return this.names;}
+
+    public void setname(String name) {
+        this.name = name;
+        this.names += name;
+    }
+    public void addtonames(String name) {
+        this.names += "\n" + name;
+    }
+
+    public void SendMsg(String msg) {
+        out.println(name + ": " + msg);
+    }
     public void acceptClient() {
         try {
             client = server.accept();
@@ -44,7 +69,6 @@ public class ServerModel {
         }
         System.out.println("client connected...");
     }
-
 
     public void getStreams() {
         try {
@@ -59,7 +83,12 @@ public class ServerModel {
     public void runProtocol() {
         Scanner tgb = new Scanner(System.in);
         System.out.println("chatting...");
+        String msg = "";
+        while (!msg.equals("QUIT")) {
+            msg = tgb.next();
+            out.println("SERVER: " + msg);
         }
+    }
 
 
     public void shutdown() {

@@ -3,65 +3,93 @@ package Client;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.sql.ClientInfoStatus;
-import java.util.Scanner;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class ClientController {
-    Socket socket;
+public class ClientController extends JFrame {
+
     ClientModel model;
-    ClientGUI view;
-    PrintWriter out;
-    BufferedReader in;
+    ClientGUI GUI;
 
-public ClientController(ClientModel m, ClientGUI v){
-    this.model = m;
-    this.view = v;
+    public ClientController(ClientModel m, ClientGUI v) {
 
-    JFrame frame = new JFrame("ClientGUI");
-    frame.setContentPane(v.getPanel());
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.pack();
-    frame.setVisible(true);
+        this.model = m;
+        this.GUI = v;
+        this.setTitle("Client");
+        v.getsendButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                model.setmsg(GUI.getMsg());
+                if (model.getmsg().length() > 0) {
+                    model.addmessagetochat(model.getname() + ": " + model.getmsg());
+                    GUI.settextPane1(model.getchat());
+                    model.SendMsg(model.getmsg());
+                    GUI.setMsg("");
+                }
+            }
+        });
 
-    m.getStreams();
-    ListenerThread l = new ListenerThread(m.in, System.out);
-    Thread listener = new Thread(l);
-    listener.start();
-    m.runProtocol();
 
-    v.skickaButton.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            m.setMsg(v.getTextField1());
-            m.getCmsg();
-            v.setTextArea1(m.Cmsg);
+        v.getEnter().addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
 
-        }
-    });
+            }
 
-}
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode()==KeyEvent.VK_ENTER) {
+                    model.setmsg(GUI.getMsg());
+                    if (model.getmsg().length() > 0) {
+                        model.addmessagetochat(model.getname() + ": " + model.getmsg());
+                        GUI.settextPane1(model.getchat());
+                        model.SendMsg(model.getmsg());
+                        GUI.setMsg("");
+                    }
+                }
+            }
 
-    public static void main(String[] args) throws InterruptedException {
-        ClientModel model = new ClientModel("localhost", 1234);
-        ClientGUI gui = new ClientGUI();
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode()==KeyEvent.VK_ENTER){
+                    GUI.setMsg("");
+                }
+            }
+        });
 
-        ClientController controller = new ClientController(model, gui);
+        this.setContentPane(GUI.getPanel());
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.pack();
+        this.setVisible(true);
+        v.getsendButton();
     }
-       /* // Client me = new Client.Client("10.80.47.10", 5858); //alexandro
-        ClientModel me = new ClientModel("10.80.46.47", 1234); //ME
-        me.getStreams();
-        ListenerThread l = new ListenerThread(me.in, System.out);
+
+    public static void main(String[] args) {
+        ClientModel m = new ClientModel("localhost", 4738); // me
+        // ClientModel m = new ClientModel("10.80.47.10", 5858); // Alexandro
+        // ClientModel m = new ClientModel("10.80.46.47", 1234); // Tim
+        ClientGUI v = new ClientGUI();
+        ClientController thisIsTheProgram = new ClientController(m, v);
+        thisIsTheProgram.setVisible(true);
+        m.setname(JOptionPane.showInputDialog("Namn?"));
+
+        v.listaddMessage(m.getname());
+        m.getStreams();
+        ClientListener l = new ClientListener(m.in, thisIsTheProgram);
         Thread listener = new Thread(l);
         listener.start();
-        me.runProtocol();
-        listener.join();
-        me.shutDown();
-    }*/
+        m.runProtocol();
+        listener.stop();
+        m.shutDown();
+    }
 
+    public void newMessage(String msg) {
+        model.addmessagetochat(msg);
+        GUI.settextPane1(model.getchat());
+    }
 
+    public void newName(String name) {
+        model.addtonames(name);
+        GUI.listaddMessage(model.getnames());
+    }
 }

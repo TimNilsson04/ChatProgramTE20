@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ChatProgramTE20Client:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ChatProgramTE20Client_jar</output-path>
+    <root id="archive" name="ChatProgramTE20.jar">
+      <element id="module-output" name="ChatProgramTE20" />
+    </root>
+  </artifact>
+</component>

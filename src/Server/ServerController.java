@@ -1,77 +1,106 @@
 package Server;
 
-import Client.ClientController;
-import Client.ClientGUI;
-import Client.ClientModel;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.Scanner;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class ServerController {
-    ServerModel  model;
-    ServerGUI  view;
-    ServerSocket server;
-    Socket client;
-    PrintWriter out;
-    BufferedReader in;
+public class ServerController extends JFrame {
 
-    public ServerController(ServerModel m, ServerGUI v){
-    this.model = m;
-    this.view = v;
+    ServerModel model;
+    ServerGUI GUI;
 
-    JFrame frame = new JFrame("ServerGUI");
-        frame.setContentPane(v.getPanel());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
+    public ServerController(ServerModel m, ServerGUI v) {
+        ClassLoader cl = this.getClass().getClassLoader();
+        ImageIcon icon = null;
+        // try {
+        //     icon = new ImageIcon(ImageIO.read(cl.getResource("icon.png")));
+        // } catch (IOException e) {
+        //     e.printStackTrace();
+        // }
+        this.model = m;
+        this.GUI = v;
+        this.setTitle("Server");
+        //this.setIconImage(icon.getImage());
+        m.minChef = this;
+        v.getsendButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                model.setmsg(GUI.getMsg());
+                if(model.getmsg().length() > 0) {
+                    model.addmessagetochat(model.getname() + ": " + model.getmsg());
+                    GUI.settextPane1(model.getchat());
+                    model.SendMsg(model.getmsg());
+                    GUI.setMsg("");
+                }
+            }
+        });
+
+        v.getEnter().addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode()==KeyEvent.VK_ENTER) {
+                    model.setmsg(GUI.getMsg());
+                    if (model.getmsg().length() > 0) {
+                        model.addmessagetochat(model.getname() + ": " + model.getmsg());
+                        GUI.settextPane1(model.getchat());
+                        model.SendMsg(model.getmsg());
+                        GUI.setMsg("");
+                    }
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode()==KeyEvent.VK_ENTER){
+                    GUI.setMsg("");
+                }
+            }
+        });
+
+        this.setContentPane(GUI.getPanel());
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.pack();
+        this.setVisible(true);
 
 
+        m.setname(JOptionPane.showInputDialog("Namn?"));
+
+        v.listaddMessage(m.getname());
+
+        v.getsendButton();
+    }
+    public static void main(String[] args) {
 
 
-        v.skickaButton.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            m.setMsg(v.getTextField1());
-            m.getCmsg();
-            v.setTextArea1(m.Cmsg);
+        ServerModel m = new ServerModel(4738);
+        ServerGUI v = new ServerGUI();
+        ServerController thisIsTheProgram = new ServerController(m,v);
+        thisIsTheProgram.setVisible(true);
 
-        }
-    });
-}
-
-    public static void main(String[] args) throws InterruptedException {
-        ServerModel model = new ServerModel(1234);
-        ServerGUI gui = new ServerGUI();
-        ServerController controller = new ServerController(model, gui);
-        model.acceptClient();
-        model.getStreams();
-        ListenerThread l = new ListenerThread(model.in, controller);
+        //ServerModel s = new ServerModel(4738);
+        m.acceptClient();
+        m.getStreams();
+        ServerListener l = new ServerListener(m.in, thisIsTheProgram);
         Thread listener = new Thread(l);
         listener.start();
-        model.runProtocol();
-
-        /*
-        s.acceptClient();
-        s.getStreams();
-        ListenerThread l = new ListenerThread(s.in, System.out);
-        Thread listener = new Thread(l);
-        listener.start();
-        s.runProtocol();
-        listener.join();
-        s.shutdown();
-*/
-    }
-    public void newMessage(String msg){
-        model.setMsg(msg);
-        view.setTextArea1(model.Cmsg);
+        m.runProtocol();
+        listener.stop();
+        m.shutdown();
     }
 
+    public void newMessage(String msg) {
+        model.addmessagetochat(msg);
+        GUI.settextPane1(model.getchat());
+    }
+    public void newName(String name) {
+        model.addtonames(name);
+        GUI.listaddMessage(model.getnames());
+    }
 }
